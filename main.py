@@ -30,8 +30,10 @@ def main():
   while settingUp:
     time.sleep(1)
     print("running backup stream")
-    subprocess.run(BackupCommand,shell=True)
-  # while True:
-  subprocess.run(command,shell=True)
+    # subprocess.run(BackupCommand,shell=True)
+    os.system(" ".join(BackupCommand))
+  while True:
+    os.system(" ".join(BackupCommand))
+    # subprocess.run(command,shell=True)
 
 main()
