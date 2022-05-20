@@ -10,8 +10,8 @@ VIDEO=str(os.environ['VIDEO'])
 AUDIO=str(os.environ['AUDIO'])
 # command=str(os.environ['cmd']).split() 
 # BackupCommand=str(os.environ['bcmd']).split() 
-command=['ffmpeg', '-i', './media/backup/a.mp3', '-re', '-stream_loop', '-1', '-i', './media/bg1.mp4', '-vf', 'scale=-1:720', '-shortest', '-strict', '-2', '-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '28', '-threads', '8', '-c:a', 'aac', '-b:v', '1500k', '-b:a', '192k', '-pix_fmt', 'yuv420p', '-r', '24', '-x264-params', 'keyint=36:min-keyint=24:scenecut=-1', '-shortest', '-f', 'flv', 'rtmp://a.rtmp.youtube.com/live2/mm56-xc3k-3dq5-5jfj-c9ac']
-BackupCommand=['ffmpeg', '-i', './media/a.mp3', '-re', '-stream_loop', '-1', '-i', './media/bg1.mp4', '-vf', 'scale=-1:720', '-shortest', '-strict', '-2', '-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '28', '-threads', '8', '-c:a', 'aac', '-b:v', '1500k', '-b:a', '192k', '-pix_fmt', 'yuv420p', '-r', '24', '-x264-params', 'keyint=36:min-keyint=24:scenecut=-1', '-shortest', '-f', 'flv', 'rtmp://a.rtmp.youtube.com/live2/mm56-xc3k-3dq5-5jfj-c9ac']
+command="ffmpeg -i ./media/a.mp3 -re -stream_loop -1 -i ./media/bg1.mp4 -vf scale=-1:720 -shortest -strict -2 -c:v libx264 -preset ultrafast -crf 28 -threads 8 -c:a aac -b:v 1500k -b:a 192k -pix_fmt yuv420p -r 24 -x264-params keyint=36:min-keyint=24:scenecut=-1 -shortest -f flv rtmp://a.rtmp.youtube.com/live2/mm56-xc3k-3dq5-5jfj-c9ac"
+BackupCommand="ffmpeg -i ./media/backup/a.mp3 -re -stream_loop -1 -i ./media/bg1.mp4 -vf scale=-1:720 -shortest -strict -2 -c:v libx264 -preset ultrafast -crf 28 -threads 8 -c:a aac -b:v 1500k -b:a 192k -pix_fmt yuv420p -r 24 -x264-params keyint=36:min-keyint=24:scenecut=-1 -shortest -f flv rtmp://a.rtmp.youtube.com/live2/mm56-xc3k-3dq5-5jfj-c9ac"
 
 print(command)
 print(BackupCommand)
@@ -30,10 +30,10 @@ def main():
   while settingUp:
     time.sleep(1)
     print("running backup stream")
-    # subprocess.run(BackupCommand,shell=True)
-    os.system(" ".join(BackupCommand))
+    subprocess.run(BackupCommand,shell=True)
+    # os.system(" ".join(BackupCommand))
   while True:
-    os.system(" ".join(BackupCommand))
-    # subprocess.run(command,shell=True)
+    # os.system(" ".join(BackupCommand))
+    subprocess.run(command,shell=True)
 
 main()
