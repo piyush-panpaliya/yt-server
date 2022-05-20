@@ -18,7 +18,8 @@ VIDEO=str(os.environ['VIDEO'])
 AUDIO=str(os.environ['AUDIO'])
 command=str(os.environ['cmd']).split() 
 BackupCommand=str(os.environ['bcmd']).split() 
-
+print(command)
+print(BackupCommand)
 settingUp=True
 
 def setup(): 
@@ -33,8 +34,9 @@ def main():
 
   while settingUp:
     time.sleep(1)
+    print("running backup stream")
     subprocess.run(BackupCommand,shell=True)
-
-  subprocess.run(command,shell=True)
+  while True:
+    subprocess.run(command,shell=True)
 
 main()
