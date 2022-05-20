@@ -31,7 +31,7 @@ def main():
     time.sleep(1)
     print("running backup stream")
     subprocess.run(BackupCommand,shell=True)
-  while True:
-    subprocess.run(command,shell=True)
+  # while True:
+  subprocess.run(command,shell=True)
 
 main()
