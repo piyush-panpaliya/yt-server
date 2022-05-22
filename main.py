@@ -1,8 +1,8 @@
 import subprocess
 import os
-from google_drive_downloader import GoogleDriveDownloader as gdd
 import time
 from threading import Thread
+import gdown
 
 # AUDIO="1-7nyfzwu9monpNry6l2qyEJkVIMN6kQ-"
 # VIDEO="1-DFjo8aLalapsI1np168JiXjzK7HWw0Q"
@@ -19,8 +19,8 @@ settingUp=True
 
 def setup(): 
   global settingUp
-  gdd.download_file_from_google_drive(file_id=AUDIO,dest_path='./media/a.mp3')
-  #gdd.download_file_from_google_drive(file_id=VIDEO,dest_path='./media/bg1.mp4')
+  gdown.download(id=AUDIO,output='./media/a.mp3',quiet=False)
+  # gdown.download(id=VIDEO,output='./media/a.mp3',quiet=False)
   settingUp=False
 
 def main():
