@@ -1,2 +1,2 @@
 [[build.buildpacks]]
-uri= "buildpack/ffmpeg"
+uri= "buildpack/ffmpeg/"
