@@ -7,3 +7,15 @@ id = "ffmpeg"
 version = "0.0.1"
 name = "ffmpeg buildpack"
 
+# Stacks that the buildpack will work with
+[[stacks]]
+id = "io.buildpacks.samples.stacks.bionic"
+
+[[stacks]]
+id = "heroku-20"
+
+[[stacks]]
+id = "io.buildpacks.samples.stacks.alpine"
+
+[[stacks]]
+id = "io.buildpacks.stacks.bionic"
