@@ -1,2 +1,4 @@
+
+
 [[build.buildpacks]]
-uri= "buildpack/ffmpeg/"
+uri= "heroku/python"
