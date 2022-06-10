@@ -1,13 +1,14 @@
 import subprocess
 import os
+from os import path
 import time
 from threading import Thread
 import gdown
 
 # AUDIO="1-7nyfzwu9monpNry6l2qyEJkVIMN6kQ-"
 # VIDEO="1-DFjo8aLalapsI1np168JiXjzK7HWw0Q"
-# BackupCommand="ffmpeg -i ./media/backup/a.mp3 -re -stream_loop -1 -i ./media/bg1.mp4 -vf scale=-1:720 -shortest -strict -2 -c:v libx264 -preset ultrafast -crf 28 -threads 8 -c:a aac -b:v 1500k -b:a 192k -pix_fmt yuv420p -r 24 -x264-params keyint=36:min-keyint=24:scenecut=-1 -shortest -f flv rtmp://a.rtmp.youtube.com/live2/mm56-xc3k-3dq5-5jfj-c9ac"
-# command="ffmpeg -i ./media/a.mp3 -re -stream_loop -1 -i ./media/bg1.mp4 -vf scale=-1:720 -shortest -strict -2 -c:v libx264 -preset ultrafast -crf 28 -threads 8 -c:a aac -b:v 1500k -b:a 192k -pix_fmt yuv420p -r 24 -x264-params keyint=36:min-keyint=24:scenecut=-1 -shortest -f flv rtmp://a.rtmp.youtube.com/live2/mm56-xc3k-3dq5-5jfj-c9ac"
+# BackupCommand="ffmpeg -i ./media/backup/a.mp3 -re -stream_loop -1 -i ./media/bg1.mp4 -vf scale=-1:720 -shortest -strict -2 -c:v libx264 -preset ultrafast -crf 28 -threads 8 -c:a aac -b:v 1500k -b:a 192k -pix_fmt yuv420p -r 24 -x264-params keyint=36:min-keyint=24:scenecut=-1 -shortest -f flv rtmp://a.rtmp.youtube.com/live2/42x8-5w0r-vhqq-wgpc-ehau"
+# command="ffmpeg -i ./media/a.mp3 -re -stream_loop -1 -i ./media/bg1.mp4 -vf scale=-1:720 -shortest -strict -2 -c:v libx264 -preset ultrafast -crf 28 -threads 8 -c:a aac -b:v 1500k -b:a 192k -pix_fmt yuv420p -r 24 -x264-params keyint=36:min-keyint=24:scenecut=-1 -shortest -f flv rtmp://a.rtmp.youtube.com/live2/42x8-5w0r-vhqq-wgpc-ehau"
 VIDEO=str(os.environ['VIDEO'])
 AUDIO=str(os.environ['AUDIO'])
 command=str(os.environ['cmd']) 
@@ -19,8 +20,10 @@ settingUp=True
 
 def setup(): 
   global settingUp
-  gdown.download(id=AUDIO,output='./media/a.mp3',quiet=False)
-  # gdown.download(id=VIDEO,output='./media/a.mp3',quiet=False)
+  downloaded=path.exists("./media/a.mp3")
+  if(not downloaded):
+    gdown.download(id=AUDIO,output='./media/a.mp3',quiet=False)
+#     gdown.download(id=VIDEO,output='./media/a.mp3',quiet=False)
   settingUp=False
 
 def main():
@@ -31,9 +34,7 @@ def main():
     time.sleep(1)
     print("running backup stream")
     subprocess.run(BackupCommand,shell=True)
-    # os.system(" ".join(BackupCommand))
   while True:
-    # os.system(" ".join(BackupCommand))
     subprocess.run(command,shell=True)
 
 main()
