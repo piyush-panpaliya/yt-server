@@ -7,8 +7,8 @@ import gdown
 
 # AUDIO="1-7nyfzwu9monpNry6l2qyEJkVIMN6kQ-"
 # VIDEO="1-DFjo8aLalapsI1np168JiXjzK7HWw0Q"
-# BackupCommand="ffmpeg -i ./media/backup/a.mp3 -re -stream_loop -1 -i ./media/bg1.mp4 -vf scale=-1:720 -shortest -strict -2 -map 0:a -map 1:v:0 -c:v libx264 -preset ultrafast -crf 28 -threads 8 -c:a aac -b:v 1500k -b:a 192k -pix_fmt yuv420p -r 24 -x264-params keyint=36:min-keyint=24:scenecut=-1 -shortest -f flv rtmp://a.rtmp.youtube.com/live2/42x8-5w0r-vhqq-wgpc-ehau"
-# command="ffmpeg -i ./media/a.mp3 -re -stream_loop -1 -i ./media/bg1.mp4 -vf scale=-1:720 -shortest -strict -2 -map 0:a -map 1:v:0 -c:v libx264 -preset ultrafast -crf 28 -threads 8 -c:a aac -b:v 1500k -b:a 192k -pix_fmt yuv420p -r 24 -x264-params keyint=36:min-keyint=24:scenecut=-1 -shortest -f flv rtmp://a.rtmp.youtube.com/live2/42x8-5w0r-vhqq-wgpc-ehau"
+# BackupCommand="ffmpeg -i ./media/backup/a.mp3 -re -stream_loop -1 -i ./media/bg1.mp4 -map 0:a -map 1:v:0 -c:v copy -preset ultrafast -g 48 -bufsize 512k -crf 28 -threads 1 -c:a copy -b:v 1500k -b:a 192k -pix_fmt yuv420p -r 24  -shortest -f flv rtmp://a.rtmp.youtube.com/live2/42x8-5w0r-vhqq-wgpc-ehau"
+# command="ffmpeg -i ./media/a.mp3 -re -stream_loop -1 -i ./media/bg1.mp4 -map 0:a -map 1:v:0 -c:v copy -preset ultrafast -g 48 -bufsize 512k -crf 28 -threads 1 -c:a copy -b:v 1500k -b:a 192k -pix_fmt yuv420p -r 24  -shortest -f flv rtmp://a.rtmp.youtube.com/live2/42x8-5w0r-vhqq-wgpc-ehau"
 VIDEO=str(os.environ['VIDEO'])
 AUDIO=str(os.environ['AUDIO'])
 command=str(os.environ['cmd']) 
