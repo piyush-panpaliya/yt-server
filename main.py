@@ -5,10 +5,11 @@ import time
 from threading import Thread
 import gdown
 
+# key="kdmf-1z1p-5e80-u4r8-dtw3
 # AUDIO="1-7nyfzwu9monpNry6l2qyEJkVIMN6kQ-"
 # VIDEO="1-DFjo8aLalapsI1np168JiXjzK7HWw0Q"
-# BackupCommand="ffmpeg -i ./media/backup/a.mp3 -re -stream_loop -1 -i ./media/bg1.mp4 -map 0:a -map 1:v:0 -c:v copy -preset ultrafast -g 48 -bufsize 512k -crf 28 -threads 1 -c:a copy -b:v 1500k -b:a 192k -pix_fmt yuv420p -r 24  -shortest -f flv rtmp://a.rtmp.youtube.com/live2/42x8-5w0r-vhqq-wgpc-ehau"
-# command="ffmpeg -i ./media/a.mp3 -re -stream_loop -1 -i ./media/bg1.mp4 -map 0:a -map 1:v:0 -c:v copy -preset ultrafast -g 48 -bufsize 512k -crf 28 -threads 1 -c:a copy -b:v 1500k -b:a 192k -pix_fmt yuv420p -r 24  -shortest -f flv rtmp://a.rtmp.youtube.com/live2/42x8-5w0r-vhqq-wgpc-ehau"
+# BackupCommand="ffmpeg -i ./media/backup/a.mp3 -re -stream_loop -1 -i ./media/bg1.mp4 -map 0:a -map 1:v:0 -c:v copy -preset ultrafast -g 48 -bufsize 512k -crf 28 -threads 1 -c:a copy -b:v 1500k -b:a 192k -pix_fmt yuv420p -r 24  -shortest -f flv rtmp://a.rtmp.youtube.com/live2/"+key
+# command="ffmpeg -i ./media/a.mp3 -re -stream_loop -1 -i ./media/bg1.mp4 -map 0:a -map 1:v:0 -c:v copy -preset ultrafast -g 48 -bufsize 512k -crf 28 -threads 1 -c:a copy -b:v 1500k -b:a 192k -pix_fmt yuv420p -r 24  -shortest -f flv rtmp://a.rtmp.youtube.com/live2/"+key
 VIDEO=str(os.environ['VIDEO'])
 AUDIO=str(os.environ['AUDIO'])
 command=str(os.environ['cmd']) 
