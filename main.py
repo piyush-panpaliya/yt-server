@@ -5,7 +5,7 @@ import time
 from threading import Thread
 import gdown
 
-# key="kdmf-1z1p-5e80-u4r8-dtw3
+# key="6jd2-r3x9-zd48-8c55-bh5p"
 # AUDIO="1-7nyfzwu9monpNry6l2qyEJkVIMN6kQ-"
 # VIDEO="1-DFjo8aLalapsI1np168JiXjzK7HWw0Q"
 # BackupCommand="ffmpeg -i ./media/backup/a.mp3 -re -stream_loop -1 -i ./media/bg1.mp4 -map 0:a -map 1:v:0 -c:v copy -preset ultrafast -g 48 -bufsize 512k -crf 28 -threads 1 -c:a copy -b:v 1500k -b:a 192k -pix_fmt yuv420p -r 24  -shortest -f flv rtmp://a.rtmp.youtube.com/live2/"+key
@@ -17,7 +17,7 @@ BackupCommand=str(os.environ['bcmd'])
 
 print(command)
 print(BackupCommand)
-settingUp=True
+settingUp=False
 
 def setup(): 
   global settingUp
@@ -32,7 +32,6 @@ def main():
   thread.start()
 
   while settingUp:
-    time.sleep(1)
     print("running backup stream")
     subprocess.run(BackupCommand,shell=True)
   while True:
