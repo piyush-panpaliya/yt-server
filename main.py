@@ -1,32 +1,68 @@
+
 import subprocess
 import os
 from os import path
-import time
+# import time
 from threading import Thread
-import gdown
+# import gdown
+# import wget
+import json
 
-# key="kdmf-1z1p-5e80-u4r8-dtw3"
-# AUDIO="1lg_BvNgw4s_6y-xKNlpFf31jJdbP6tRq"
-# VIDEO="1-DFjo8aLalapsI1np168JiXjzK7HWw0Q"
-# BackupCommand="ffmpeg -i ./media/backup/a.mp3 -re -stream_loop -1 -i ./media/bg1.mp4 -map 0:a -map 1:v:0  -r 24 -f flv rtmp://a.rtmp.youtube.com/live2/"+key
-# command="ffmpeg -i ./media/a.mp3 -re -stream_loop -1 -i ./media/bg1.mp4 -map 0:a -map 1:v:0  -r 24 -f flv rtmp://a.rtmp.youtube.com/live2/"+key
-VIDEO=str(os.environ['VIDEO'])
-key=str(os.environ['KEY'])
-AUDIO=str(os.environ['AUDIO'])
-command=str(os.environ['command'])+key
-BackupCommand=str(os.environ['BackupCommand'])+key
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
+
+f = open('var.json')
+jsondata = json.load(f)
+
+cloudinary.config( 
+  cloud_name = "pshop", 
+  api_key = "459352598841221", 
+  api_secret = jsondata["cloudinary"]
+)
+
+VIDEO=str(jsondata['VIDEO'])
+key=str(jsondata['KEY'])
+AUDIO=str(jsondata['AUDIO'])
+AD=str(jsondata['AD'])
+playAd=str(jsondata['playAd'])
+interval=str(jsondata['interval'])
+totalsongs=str(jsondata['totalsongs'])
+command=str(jsondata['command'])+key
+BackupCommand=str(jsondata['BackupCommand'])+key
+
+f.close()
+
+adCommand="ffmpeg -re -i ./media/ad/ad.mp4 -r 24 -f flv rtmp://a.rtmp.youtube.com/live2/"+key
+current=1
 
 print(command)
 print(BackupCommand)
+print(f'ad interval {interval}')
+print(f'ad  playing {playAd}')
 settingUp=True
 
 def setup(): 
   global settingUp
-  downloaded=path.exists("./media/a.mp3")
+  downloaded=path.exists("./media/music/1.mp3")
+  addownloaded=path.exists("./media/ad/ad.mp4")
+  
   if(not downloaded):
-    gdown.download(id=AUDIO,output='./media/a.mp3',quiet=False)
-#     gdown.download(id=VIDEO,output='./media/a.mp3',quiet=False)
+    result = cloudinary.Search().expression('folder:songs').max_results(200).execute()
+    for r in result["resources"]:
+      print(r["url"])    
+      wget.download(r["url"],out='media/music')
+
+  if(not addownloaded):
+    gdown.download(id=AD,output='./media/ad/ad.mp4',quiet=False)
+    
   settingUp=False
+
+
+def commandtoplay(id):
+  carray=command.split("./media/a.mp3")
+  return carray[0]+" ./media/music/"+str(id)+".mp3 "+carray[1]
 
 def main():
   thread = Thread(target = setup, args = ())
@@ -35,7 +71,19 @@ def main():
   while settingUp:
     print("running backup stream")
     subprocess.run(BackupCommand,shell=True)
-  while True:
-    subprocess.run(command,shell=True)
+    
+  while not settingUp:
+    global current,totalsongs
+    # thinking of a for loop but i need to change current in fitre by asking audience
+    
+    subprocess.run(commandtoplay(current),shell=True)
+    if (totalsongs==current):
+      current=1
+    else:
+      current+=1
+
+    if(current % int(interval) == 0):
+      subprocess.run(adCommand,shell=True)
+      
 
 main()
