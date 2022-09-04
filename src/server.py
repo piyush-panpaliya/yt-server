@@ -55,7 +55,6 @@ def startyt():
 
   elif request.method == 'DELETE':
     if  ytthread.is_alive():
-      ytthread.join(200)
       ytthread.terminate()
       if mediaThread.is_alive():
         mediaThread.join(600)
