@@ -4,8 +4,8 @@ import pickledb
 import os
 import multiprocessing
 from functools import wraps
-from main import main,mediaThread
-from variable import *
+from src.main import main,mediaThread
+from src.variable import *
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -55,6 +55,7 @@ def startyt():
 
   elif request.method == 'DELETE':
     if  ytthread.is_alive():
+      ytthread.join(200)
       ytthread.terminate()
       if mediaThread.is_alive():
         mediaThread.join(600)

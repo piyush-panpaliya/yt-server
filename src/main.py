@@ -1,7 +1,7 @@
 
 from time import sleep
-from variable import *
-from yt import downloadMedia, stream
+from src.variable import *
+from src.yt import downloadMedia, stream
 
 from threading import Thread
 

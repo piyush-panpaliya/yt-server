@@ -1,7 +1,7 @@
 import subprocess
 from os import path
 import gdown
-from variable import *
+from src.variable import *
 
 adCommand="ffmpeg -re -i ./media/ad/ad.mp4 -shortest -f flv rtmp://a.rtmp.youtube.com/live2/"+key
 
@@ -13,7 +13,7 @@ def downloadMedia():
   addownloaded=path.exists("./media/ad/ad.mp4")
   if(not downloaded):
     gdown.download(id=AUDIO,output='./media/zip/audio.zip',quiet=True)
-    subprocess.run("unzip ./media/zip/audio.zip -d ./media/music && rm ./media/zip/audio.zip",shell=True)
+    subprocess.run("unzip -j ./media/zip/audio.zip -d ./media/music && rm ./media/zip/audio.zip",shell=True)
 
   if(not addownloaded):
     gdown.download(id=AD,output='./media/ad/ad.mp4',quiet=True)
