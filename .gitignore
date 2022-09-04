@@ -1,4 +1,5 @@
 /bin/
-/media/a.mp3
-/media/aOld.mp3
+/media/music/*
 var.json
+__pycache__
+/media/zip/*
