@@ -3,3 +3,4 @@
 var.json
 __pycache__
 /media/zip/*
+data.db
