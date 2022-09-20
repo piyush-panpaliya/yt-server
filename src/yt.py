@@ -4,11 +4,10 @@ import gdown
 from src.variable import *
 
 adCommand="ffmpeg -re -i ./media/ad/ad.mp4 -shortest -f flv rtmp://a.rtmp.youtube.com/live2/"+key
-
+downloaded=path.exists("./media/music/1.mp3") or forceUpdateMusic
 def downloadMedia(): 
   global downloading
   downloading=True
-  downloaded=path.exists("./media/music/1.mp3") or forceUpdateMusic
   videodownloaded=path.exists("./media/video/bg1.mp4")
   addownloaded=path.exists("./media/ad/ad.mp4")
   if(not downloaded):
@@ -34,14 +33,16 @@ def stream():
   current=1
   while downloading:
     print("running backup stream")
-    subprocess.run(BackupCommand,shell=True)
+    if not downloaded:
+      subprocess.run(BackupCommand,shell=True)
     
   while not downloading:
 
     subprocess.run(commandtoplay(current),shell=True)
     print("running "+str(current))
     if (totalsongs==current):
-      current=1
+      print("stoping")
+      break
     else:
       current+=1
 
