@@ -1,24 +1,15 @@
 from flask import Flask, request,make_response,jsonify
 # from flask_login import LoginManager,login_required,login_user
-import pickledb
+from db import *
 import os
 import multiprocessing
 from functools import wraps
-from src.main import main,mediaThread
-from src.variable import *
+from main import main,mediaThread
 
 from dotenv import load_dotenv
 load_dotenv()
 
 app = Flask(__name__)
-
-
-db = pickledb.load('data.db', True)
-if not db.get('users'):
-    db.dcreate('users')
-
-if not db.get('songs'):
-    db.dcreate('songs')
 
 # Authentication decorator
 def token_required(f):
@@ -41,37 +32,41 @@ def token_required(f):
 def home():
     return "hello, this is the home page"
 
-ytthread =multiprocessing.Process(target = main)
+ytthread=True
 
 @app.route('/server', methods=['PUT', 'DELETE'])
 @token_required
 def startyt():
   global ytthread
   if request.method == 'PUT':
-    if not ytthread.is_alive():
+    if ytthread:
+      dbset('running', True)
+      ytthread=multiprocessing.Process(target = main)
       ytthread.start()
       return {"status": "started"}
-    return "already running"
+    return {"status":"already running"}
 
   elif request.method == 'DELETE':
-    if  ytthread.is_alive():
-      ytthread.terminate()
-      if mediaThread.is_alive():
-        mediaThread.join(600)
-        print("stopping after media download complete")
-      ytthread=multiprocessing.Process(target=main, args=())
-      return {"status": "stoped"}
+    if ytthread!=True:
+      if  ytthread.is_alive():
+        ytthread.terminate()
+        dbset('running', False)
+        if mediaThread.is_alive():
+          mediaThread.join(600)
+          print("stopping after media download complete")
+        ytthread=True
+        return {"status": "stopped"}
     return {"status":"not started"}
 
 
 @app.route('/config', methods=['GET', 'POST'])
 @token_required
 def config():
-    if request.method == 'POST':
-        newconfig = request.json
-        # schema validation of newconfig
-        db.set('config', newconfig)
-    return db.get('config')
+  if request.method == 'POST':
+    newconfig = request.json
+    # schema validation of newconfig
+    db.set('config', newconfig)
+  return db.get('config')
 
 
 
