@@ -64,8 +64,9 @@ def startyt():
 def config():
   if request.method == 'POST':
     newconfig = request.json
-    # schema validation of newconfig
-    db.set('config', newconfig)
+    unchanged={"running":dbget("running"),"downloading":dbget("downloading"),"current":dbget("current")}
+    upConfig={**newconfig,**unchanged}
+    db.set('config', upConfig)
   return db.dgetall('config')
 
 
