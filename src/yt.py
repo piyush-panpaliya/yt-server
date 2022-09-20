@@ -1,22 +1,23 @@
 import subprocess
-from os import path
+from os import path,system
 import gdown
 from db import *
 
 
-
+downloaded=path.exists("./media/music/1.mp3") 
 adCommand="ffmpeg -re -i ./media/ad/ad.mp4 -shortest -f flv rtmp://a.rtmp.youtube.com/live2/"+dbget('KEY')
-downloaded=path.exists("./media/music/1.mp3") or (not dbget('forceUpdateMusic'))
 
 def downloadMedia(): 
   dbset('downloading',True)
+  downloaded=path.exists("./media/music") 
   videodownloaded=path.exists("./media/video/bg1.mp4")
   addownloaded=path.exists("./media/ad/ad.mp4")
   if(not downloaded):
-    try:
-      subprocess.run("ls")
-    except:
-      print("err")
+    system("mkdir ./media/music")
+    if path.exists("./media/zip"):
+      system("rm -r  ./media/zip")      
+    system("mkdir ./media/zip")
+
     gdown.download(id=dbget('AUDIO'),output='./media/zip/audio.zip',quiet=True)
     subprocess.run("unzip -j ./media/zip/audio.zip -d ./media/music && rm ./media/zip/audio.zip",shell=True)
 
