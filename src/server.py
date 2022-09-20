@@ -66,7 +66,7 @@ def config():
     newconfig = request.json
     # schema validation of newconfig
     db.set('config', newconfig)
-  return db.get('config')
+  return db.dgetall('config')
 
 
 
