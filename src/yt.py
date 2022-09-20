@@ -4,13 +4,17 @@ import gdown
 from src.variable import *
 
 adCommand="ffmpeg -re -i ./media/ad/ad.mp4 -shortest -f flv rtmp://a.rtmp.youtube.com/live2/"+key
-downloaded=path.exists("./media/music/1.mp3") or forceUpdateMusic
+downloaded=path.exists("./media/music/1.mp3") or (not forceUpdateMusic)
 def downloadMedia(): 
   global downloading
   downloading=True
   videodownloaded=path.exists("./media/video/bg1.mp4")
   addownloaded=path.exists("./media/ad/ad.mp4")
   if(not downloaded):
+    try:
+      subprocess.run("ls")
+    except:
+      print("err")
     gdown.download(id=AUDIO,output='./media/zip/audio.zip',quiet=True)
     subprocess.run("unzip -j ./media/zip/audio.zip -d ./media/music && rm ./media/zip/audio.zip",shell=True)
 
