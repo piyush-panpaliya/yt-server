@@ -1,3 +1,4 @@
+import json
 from flask import Flask, request,make_response,jsonify
 # from flask_login import LoginManager,login_required,login_user
 from db import *
@@ -69,5 +70,18 @@ def config():
     db.set('config', upConfig)
   return db.dgetall('config')
 
+@app.route('/songs', methods=['GET', 'POST'])
+@token_required
+def setsong():
+  if request.method == 'POST':
+    newSong = request.json
+    for key in newSong:
+      db.ladd('songs',key)
+  return json.dumps(db.lgetall('songs'))
 
 
+@app.route('/song', methods=['GET'])
+def song():
+  iid = dbget('current')
+  isong=db.lget('songs',iid-1)
+  return isong["name"]

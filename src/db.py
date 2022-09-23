@@ -12,7 +12,7 @@ if not db.get('users'):
   db.dcreate('users')
 
 if not db.get('songs'):
-  db.dcreate('songs')
+  db.lcreate('songs')
 
 if not db.get('config'):
   db.dcreate('config')

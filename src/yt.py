@@ -34,7 +34,7 @@ def downloadMedia():
 def commandtoplay(id):
   command=dbget('command')+dbget('KEY')
   carray=command.split("break")
-  return carray[0]+" ./media/music/"+str(id)+".mp3 "+carray[1]+" ./media/video/bg1.mp4 "+carray[2]
+  return carray[0]+" ./media/music/"+str(id)+".mp3 "+carray[1]+" ./media/video/bg1.mp4 "+carray[2]+db.lget('songs',id)["name"]+carray[3]
 
 def stream():
   BackupCommand=dbget('backupCommand')+dbget('KEY')
@@ -59,3 +59,4 @@ def stream():
       subprocess.run(adCommand,shell=True)
 
  
+print(commandtoplay(34))
