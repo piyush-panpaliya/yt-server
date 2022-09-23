@@ -57,6 +57,3 @@ def stream():
     if(dbget('current') % int(adInterval) == 0 and playAd):
       print("running ad")
       subprocess.run(adCommand,shell=True)
-
- 
-print(commandtoplay(34))
