@@ -1,7 +1,10 @@
 /bin/
 /media/music/*
-var.json
+!media/music/.gitkeep
+!media/video/gif/1.gif
 __pycache__
 /media/zip/*
+!media/zip/.gitkeep
 index.html
 data.db
+.env

@@ -2,61 +2,82 @@ import subprocess
 from os import path,system
 import gdown
 from db import *
+import random 
 
 
-downloaded=path.exists("./media/music/1.mp3") 
 adCommand="ffmpeg -re -i ./media/ad/ad.mp4 -shortest -f flv rtmp://a.rtmp.youtube.com/live2/"+dbget('KEY')
+downloaded=path.exists("./media/music/1.mp3") 
+gif="1.gif"
 
 def downloadMedia(): 
   dbset('downloading',True)
-  downloaded=path.exists("./media/music") 
+  downloaded=path.exists("./media/music/1.mp3") 
   videodownloaded=path.exists("./media/video/bg1.mp4")
   addownloaded=path.exists("./media/ad/ad.mp4")
-  if(not downloaded):
-    system("mkdir ./media/music")
-    if path.exists("./media/zip"):
-      system("rm -r  ./media/zip")      
-    system("mkdir ./media/zip")
+  gifdownloaded=path.exists("./media/VIDEO/gif/1.gif")
 
+  if(not downloaded):
     gdown.download(id=dbget('AUDIO'),output='./media/zip/audio.zip',quiet=True)
     subprocess.run("unzip -j ./media/zip/audio.zip -d ./media/music && rm ./media/zip/audio.zip",shell=True)
 
   if(not addownloaded):
     gdown.download(id=dbget('AD'),output='./media/ad/ad.mp4',quiet=True)
     
+  if(not gifdownloaded):
+    gdown.download(id=dbget('GIF'),output='./media/zip/gif.zip',quiet=True)
+    subprocess.run("unzip -j ./media/zip/audio.zip -d ./media/music && rm ./media/zip/gif.zip",shell=True)
+
   if(not videodownloaded):
-    gdown.download(id=dbget('VIDEO'),output='./media/video/video.mp4',quiet=True)
+    gdown.download(id=dbget('VIDEO'),output='./media/video/bg1.mp4',quiet=True)
+
   print("downloaded media")
+  
   dbset('downloading',False)
   return
 
 
 def commandtoplay(id):
+  global gif
+  agif=os.listdir("./media/video/gif/")
+
+  if(len(agif)==0):
+    gif="backup.gif"
+
+  elif(id%5==0):
+    gif=random.choice(agif)
+
   command=dbget('command')+dbget('KEY')
   carray=command.split("break")
-  return carray[0]+" ./media/music/"+str(id)+".mp3 "+carray[1]+" ./media/video/bg1.mp4 "+carray[2]+db.lget('songs',id-1)["name"]+carray[3]
+  z= (
+    carray[0]+" ./media/music/"+str(id)+".mp3 "+
+    carray[1]+" ./media/video/gif/"+gif+
+    carray[2]+'"'+db.lget('songs',int(id)-1)["name"]+'"'+
+    carray[3]
+  )
+  return z
 
 def stream():
   BackupCommand=dbget('backupCommand')+dbget('KEY')
   adInterval=dbget('adInterval')
   playAd=dbget('playAd')
+
   while dbget('downloading'):
     print("running backup stream")
     if not downloaded:
       subprocess.run(BackupCommand,shell=True)
     
-  while not  dbget('downloading'):
+  while not dbget('downloading'):
+    current=dbget('current')
+    subprocess.run(commandtoplay(current),shell=True)
 
-    subprocess.run(commandtoplay(dbget('current')),shell=True)
-    print("running "+str(dbget('current')))
-    if (dbget('totalsongs')==dbget('current')):
+    print("running "+str(current))
+
+    if (dbget('totalsongs')==current):
       dbset('current',1)
     else:
-      dbset('current',int(dbget('current'))+1)
+      dbset('current',int(current)+1)
 
-    if(dbget('current') % int(adInterval) == 0 and playAd):
+    if(current % int(adInterval) == 0 and playAd):
       print("running ad")
       subprocess.run(adCommand,shell=True)
 
-
-print(commandtoplay(1))
