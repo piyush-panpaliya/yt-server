@@ -5,7 +5,7 @@ from db import *
 import random 
 
 
-adCommand="ffmpeg -re -i ./media/ad/ad.mp4 -shortest -f flv rtmp://a.rtmp.youtube.com/live2/"+dbget('KEY')
+adCommand="ffmpeg -re -i ./media/ad/ad.mp4 -shortest -f flv "+dbget('KEY')
 downloaded=path.exists("./media/music/1.mp3") 
 gif="1.gif"
 
@@ -14,7 +14,7 @@ def downloadMedia():
   downloaded=path.exists("./media/music/1.mp3") 
   videodownloaded=path.exists("./media/video/bg1.mp4")
   addownloaded=path.exists("./media/ad/ad.mp4")
-  gifdownloaded=path.exists("./media/VIDEO/gif/1.gif")
+  gifdownloaded=path.exists("./media/video/gif/2.mp4")
 
   if(not downloaded):
     gdown.download(id=dbget('AUDIO'),output='./media/zip/audio.zip',quiet=True)
@@ -25,7 +25,7 @@ def downloadMedia():
     
   if(not gifdownloaded):
     gdown.download(id=dbget('GIF'),output='./media/zip/gif.zip',quiet=True)
-    subprocess.run("unzip -j ./media/zip/audio.zip -d ./media/music && rm ./media/zip/gif.zip",shell=True)
+    subprocess.run("unzip -j ./media/zip/gif.zip -d ./media/video/gif && rm ./media/zip/gif.zip",shell=True)
 
   if(not videodownloaded):
     gdown.download(id=dbget('VIDEO'),output='./media/video/bg1.mp4',quiet=True)

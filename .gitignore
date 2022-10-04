@@ -1,5 +1,6 @@
 /bin/
 /media/music/*
+/media/video/gif/*
 !media/music/.gitkeep
 !media/video/gif/1.gif
 __pycache__
