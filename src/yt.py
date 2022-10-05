@@ -7,7 +7,7 @@ import random
 
 adCommand="ffmpeg -re -i ./media/ad/ad.mp4 -shortest -f flv "+dbget('KEY')
 downloaded=path.exists("./media/music/1.mp3") 
-gif="1.gif"
+gif="2.mp4"
 
 def downloadMedia(): 
   dbset('downloading',True)

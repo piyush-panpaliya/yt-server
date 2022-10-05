@@ -40,8 +40,8 @@ ytthread=True
 def startyt():
   global ytthread
   if request.method == 'PUT':
-    if ytthread:
-      dbset('running', True)
+    if ytthread==True:
+      db.dadd('config',('running', True))
       ytthread=multiprocessing.Process(target = main)
       ytthread.start()
       return {"status": "started"}
