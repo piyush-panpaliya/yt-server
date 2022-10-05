@@ -51,7 +51,7 @@ def startyt():
     if ytthread!=True:
       if  ytthread.is_alive():
         ytthread.terminate()
-        dbset('running', False)
+        db.dadd('config',('running', False))
         if mediaThread.is_alive():
           mediaThread.join(600)
           print("stopping after media download complete")
@@ -65,7 +65,7 @@ def startyt():
 def config():
   if request.method == 'POST':
     newconfig = request.json
-    unchanged={"running":dbget("running"),"downloading":dbget("downloading"),"current":dbget("current")}
+    unchanged={"running":db.dget('config',"running"),"downloading":db.dget('config',"downloading"),"current":db.dget('config',"current")}
     upConfig={**newconfig,**unchanged}
     db.set('config', upConfig)
   return db.dgetall('config')
@@ -82,6 +82,6 @@ def setsong():
 
 @app.route('/song', methods=['GET'])
 def song():
-  iid = dbget('current')
+  iid = db.dget('config','current')
   isong=db.lget('songs',iid-1)
   return isong["name"]

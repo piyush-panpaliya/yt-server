@@ -6,6 +6,8 @@
 __pycache__
 /media/zip/*
 !media/zip/.gitkeep
+/media/ad/*
+!media/ad/.gitkeep
 index.html
 data.db
 .env

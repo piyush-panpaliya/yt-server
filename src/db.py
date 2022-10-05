@@ -23,9 +23,3 @@ if not db.get('config'):
 
 db.dadd('config',("current",1))
 db.dadd('config',("running",False))
-
-def dbset(name,value):
-  return db.dadd('config',(name,value))
-
-def dbget(name):
-  return db.dget('config',name)
