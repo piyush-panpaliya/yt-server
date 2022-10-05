@@ -2,7 +2,7 @@
 /media/music/*
 /media/video/gif/*
 !media/music/.gitkeep
-!media/video/gif/1.gif
+!media/video/gif/backup.mp4
 __pycache__
 /media/zip/*
 !media/zip/.gitkeep
