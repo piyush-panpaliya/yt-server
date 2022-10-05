@@ -1,4 +1,4 @@
-import db
+from db import db
 from yt import downloadMedia, stream
 from threading import Thread
 
