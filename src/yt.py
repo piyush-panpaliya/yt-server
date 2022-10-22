@@ -6,35 +6,41 @@ import random
 
 
 adCommand="ffmpeg -re -i ./media/ad/ad.mp4 -shortest -f flv "+db.dget('config','KEY')
-downloaded=path.exists("./media/music/1.mp3") 
-gif="backup.mp4"
+downloaded=path.exists("./media/music/1.mp3") and not db.dget('config','forceUpdateMusic')
+gif="1.mp4"
 
 def downloadMedia(): 
   db.dadd('config',('downloading',True))
+  
+  if(db.dget('config','forceUpdateMusic')):
+    os.system('rm -r ./media/music/* && touch ./media/music/.gitkeep')
+    os.system('rm -r ./media/ad/* && touch ./media/ad/.gitkeep')
+    os.system('mv ./media/video/gif/backup.mp4 ./ && rm -r ./media/video/gif/* && mv ./backup.mp4 ./media/video/gif')
+    os.system('rm ./media/video/bg1.mp4') 
+    
   downloaded=path.exists("./media/music/1.mp3") 
   videodownloaded=path.exists("./media/video/bg1.mp4")
   addownloaded=path.exists("./media/ad/ad.mp4")
   gifdownloaded=path.exists("./media/video/gif/2.mp4")
-
+     
   if(not downloaded):
     gdown.download(id=db.dget('config','AUDIO'),output='./media/zip/audio.zip',quiet=True)
     subprocess.run("unzip -j ./media/zip/audio.zip -d ./media/music && rm ./media/zip/audio.zip",shell=True)
-
+    
   if(not addownloaded):
     gdown.download(id=db.dget('config','AD'),output='./media/ad/ad.mp4',quiet=True)
-    
+
   if(not gifdownloaded):
     gdown.download(id=db.dget('config','GIF'),output='./media/zip/gif.zip',quiet=True)
     subprocess.run("unzip -j ./media/zip/gif.zip -d ./media/video/gif && rm ./media/zip/gif.zip",shell=True)
 
-  if(not videodownloaded):
+  if(not videodownloaded):  
     gdown.download(id=db.dget('config','VIDEO'),output='./media/video/bg1.mp4',quiet=True)
 
   print("downloaded media")
   
   db.dadd('config',('downloading',False))
-  return
-
+  return  
 
 def commandtoplay(id):
   global gif
