@@ -1,0 +1,11 @@
+/bin/
+/media/music/*
+/media/video/gif/*
+!media/video/gif/backup.mp4
+__pycache__
+/media/zip/*
+/media/ad/*
+index.html
+data.db
+.env
+venv
