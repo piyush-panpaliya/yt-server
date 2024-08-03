@@ -1,11 +1,11 @@
 import os
-from src.yt import commandtoplay
+from src import yt
 
 
 def run(songs):
   for i in songs:
     try:
-      cmd = commandtoplay(i)
+      cmd = yt.commandtoplay(i)
       os.system(cmd)
     except Exception as e:
       print(e)

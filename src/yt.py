@@ -1,5 +1,5 @@
 import subprocess
-from os import path
+from os import path, system
 import gdown
 from .db import *
 import random
@@ -20,44 +20,47 @@ def downloadMedia():
   global downloaded
   try:
     db.dadd('config', ('downloading', True))
+    system('mkdir -p media/zip')
 
     if (db.dget('config', 'forceUpdateMusic')):
-      os.system('rm -r ./media/music/*')
-      os.system('rm -r ./media/ad/*')
-      os.system(
+      system('rm -r ./media/music/*')
+      system('rm -r ./media/ad/*')
+      system(
         'mv media/video/gif/backup.mp4 . && rm -r media/video/gif/* && mv backup.mp4 media/video/gif')
-      os.system('rm ./media/video/bg1.mp4')
 
     downloaded = path.exists("./media/music/1.mp3")
-    videodownloaded = path.exists("./media/video/bg1.mp4")
     addownloaded = path.exists("./media/ad/ad.mp4")
     gifdownloaded = path.exists("./media/video/gif/2.mp4")
 
     if (not downloaded):
+      system('mkdir -p media/music')
       gdown.download(id=db.dget('config', 'AUDIO'),
                      output='media/zip/audio.zip', quiet=True)
       subprocess.run(
         "unzip -j media/zip/audio.zip -d media/music && rm media/zip/audio.zip", shell=True)
 
     if (not addownloaded):
+      system('mkdir -p media/ad')
       gdown.download(id=db.dget('config', 'AD'),
                      output='media/ad/ad.mp4', quiet=True)
 
     if (not gifdownloaded):
+      system('mkdir -p media/video/gif')
       gdown.download(id=db.dget('config', 'GIF'),
                      output='media/zip/gif.zip', quiet=True)
       subprocess.run(
         "unzip -j media/zip/gif.zip -d media/video/gif && rm media/zip/gif.zip", shell=True)
 
-    if (not videodownloaded):
-      gdown.download(id=db.dget('config', 'VIDEO'),
-                     output='media/video/bg1.mp4', quiet=True)
+    # if (not videodownloaded):
+    #  system('mkdir -p media/video')
+    #   gdown.download(id=db.dget('config', 'VIDEO'),
+    #                  output='media/video/bg1.mp4', quiet=True)
 
-    print("downloaded media")
   except Exception as e:
     print(e)
     print("error downloading media")
   finally:
+    print("downloaded media")
     db.dadd('config', ('downloading', False))
   return
 

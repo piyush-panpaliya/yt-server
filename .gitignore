@@ -7,5 +7,6 @@ __pycache__
 /media/ad/*
 index.html
 data.db
+db
 .env
 venv

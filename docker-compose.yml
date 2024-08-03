@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3'
 services:
   app:
     container_name: yt
@@ -6,12 +6,18 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "5000:8011"
+      - "8011:5000"
     volumes:
       - ./media:/app/media
-      - data.db:/app/data.db
+      - ./db:/app/db
     env_file:
       - .env
+    restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 400M
+          cpus: '0.8'
 
 networks:
   default:

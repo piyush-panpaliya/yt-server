@@ -8,5 +8,5 @@ if not path.exists('media'):
   mkdir('media/video')
   mkdir('media/zip')
 
-if not path.exists("data.db"):
-  system("touch data.db && echo '{}' > data.db")
+if not path.exists("db/data.db"):
+  system("mkdir -p db && touch db/data.db && echo '{}' > db/data.db")
