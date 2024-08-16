@@ -4,11 +4,13 @@ import multiprocessing
 import os
 from .db import *
 from flask import Flask, request, make_response, jsonify
+from flask_cors import CORS
 import json
 from dotenv import load_dotenv
 load_dotenv()
 
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 
 def token_required(f):
